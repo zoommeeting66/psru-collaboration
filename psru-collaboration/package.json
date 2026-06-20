@@ -1,0 +1,13 @@
+{
+  "name": "psru-collaboration",
+  "private": true,
+  "scripts": {
+    "install:all": "npm.cmd --prefix server install && npm.cmd --prefix client install",
+    "dev": "concurrently \"npm.cmd --prefix server run dev\" \"npm.cmd --prefix client run dev\"",
+    "start": "concurrently \"npm.cmd --prefix server start\" \"npm.cmd --prefix client run preview -- --host 0.0.0.0\"",
+    "build": "npm.cmd --prefix client run build",
+    "db:migrate": "npm.cmd --prefix server run migrate",
+    "db:seed": "npm.cmd --prefix server run seed"
+  },
+  "devDependencies": { "concurrently": "^9.1.2" }
+}

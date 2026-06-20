@@ -25,28 +25,29 @@ psru-collaboration/
 
 ## ติดตั้งและรัน
 
-ต้องมี Node.js 20+ และ Docker Desktop (หรือ PostgreSQL 16+)
+ต้องมี Node.js 20+ และ PostgreSQL 16+ (แนะนำ Docker Desktop)
 
 ```powershell
 cd psru-collaboration
-docker compose up -d
-cd server
-Copy-Item .env.example .env
 npm install
-npm run migrate
-npm run seed
+npm run install:all
+docker compose up -d
+npm run db:migrate
+npm run db:seed
 npm run dev
 ```
 
-เปิด PowerShell ใหม่ แล้วรัน Frontend:
+เปิด `http://localhost:5173` แล้วเข้าสู่ระบบด้วย `admin@psru.ac.th` / `PsrU@123` (ให้เปลี่ยนรหัสผ่านทันทีเมื่อใช้งานจริง)
+
+> ระบบมี `server/.env` สำหรับการพัฒนาในเครื่องแล้ว หากติดตั้ง PostgreSQL เอง ให้แก้ `DATABASE_URL` ให้ตรงกับเครื่องของคุณ ส่วน production ต้องสร้าง `JWT_SECRET` แบบสุ่มและยาวใหม่เสมอ
+
+หากไม่ใช้คำสั่งรวม สามารถรันแยกได้ดังนี้:
 
 ```powershell
 cd psru-collaboration/client
 npm install
 npm run dev
 ```
-
-เปิด `http://localhost:5173` และเข้าสู่ระบบด้วย `admin@psru.ac.th` / `PsrU@123` (ให้เปลี่ยนรหัสผ่านทันทีเมื่อใช้งานจริง)
 
 ## API หลัก
 
