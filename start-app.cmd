@@ -56,6 +56,18 @@ echo Starting PostgreSQL container...
 docker compose up -d
 if errorlevel 1 goto database_failed
 
+echo Waiting for PostgreSQL to be ready...
+set /a attempts=0
+:wait_for_database
+docker compose exec -T db pg_isready -U psru -d psru_collaboration >nul 2>nul
+if not errorlevel 1 goto database_ready
+set /a attempts+=1
+if %attempts% GEQ 30 goto database_failed
+timeout /t 1 /nobreak >nul
+goto wait_for_database
+
+:database_ready
+
 if not exist node_modules npm.cmd install
 if not exist client\node_modules npm.cmd --prefix client install
 if not exist server\node_modules npm.cmd --prefix server install
@@ -67,11 +79,29 @@ npm.cmd run db:seed
 if errorlevel 1 goto database_failed
 
 echo.
-echo The system is ready at http://localhost:5173
-echo Press Ctrl+C to stop the system.
+echo Starting the application services...
+start "PSRU Collaboration System" /D "%~dp0" cmd /k npm.cmd run dev
+
+echo Waiting for the login page...
+set /a attempts=0
+:wait_for_frontend
+powershell -NoProfile -Command "if ((Test-NetConnection -ComputerName localhost -Port 5173 -WarningAction SilentlyContinue).TcpTestSucceeded) { exit 0 } else { exit 1 }"
+if not errorlevel 1 goto frontend_ready
+set /a attempts+=1
+if %attempts% GEQ 30 goto frontend_failed
+timeout /t 1 /nobreak >nul
+goto wait_for_frontend
+
+:frontend_ready
+echo The system is ready. Opening http://localhost:5173
 start "" "http://localhost:5173"
-npm.cmd run dev
-exit /b %errorlevel%
+exit /b 0
+
+:frontend_failed
+echo The Frontend did not start within 30 seconds.
+echo Check the "PSRU Collaboration System" window for the error message.
+pause
+exit /b 1
 
 :wsl_required
 echo Windows Subsystem for Linux (WSL) is not installed.
