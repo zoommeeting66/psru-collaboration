@@ -71,6 +71,7 @@ goto wait_for_database
 if not exist node_modules npm.cmd install
 if not exist client\node_modules npm.cmd --prefix client install
 if not exist server\node_modules npm.cmd --prefix server install
+if not exist server\.env copy /Y server\.env.example server\.env >nul
 
 echo Preparing database...
 npm.cmd run db:migrate
