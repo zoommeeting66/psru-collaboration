@@ -27,7 +27,13 @@ psru-collaboration/
 
 ต้องมี Node.js 20+ และ PostgreSQL 16+ (แนะนำ Docker Desktop)
 
-**วิธีที่ง่ายที่สุด (Windows):** ดับเบิลคลิกไฟล์ `start-app.cmd` ที่หน้าโฟลเดอร์โครงการ แล้วเปิด [http://localhost:5173](http://localhost:5173) ในเบราว์เซอร์
+**วิธีที่ง่ายที่สุด (Windows):** ดับเบิลคลิกไฟล์ `start-app.cmd` ที่หน้าโฟลเดอร์โครงการ
+
+- หากยังไม่มี Docker Desktop ระบบจะถามยืนยันก่อนติดตั้งด้วย `winget` (ไม่ต้องติดตั้ง PostgreSQL แยก)
+- เมื่อ Docker พร้อม ระบบจะสร้าง PostgreSQL container, ติดตั้ง package ที่จำเป็น, migration และ seed ให้อัตโนมัติ
+- จากนั้นระบบจะเปิด [http://localhost:5173](http://localhost:5173) ในเบราว์เซอร์
+
+> Docker Desktop อาจขอสิทธิ์ผู้ดูแลระบบ และอาจต้องเริ่มเครื่องใหม่หนึ่งครั้งตามการตั้งค่า WSL ของ Windows
 
 ```powershell
 npm install
