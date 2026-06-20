@@ -1,0 +1,64 @@
+# ระบบฐานข้อมูลบันทึกความร่วมมือทางวิชาการ มหาวิทยาลัยราชภัฏพิบูลสงคราม
+
+ระบบสำหรับบันทึก ติดตาม และรายงาน MOU/MOA/LOI/Agreement/โครงการร่วม พร้อม Dashboard ผู้บริหาร การแจ้งเตือนวันหมดอายุ เอกสารแนบ และบันทึกการทำรายการ (audit log)
+
+## ความสามารถหลัก
+
+- เข้าสู่ระบบด้วย JWT และแยกบทบาท `admin`, `officer`, `executive`
+- จัดการข้อมูลหน่วยงานภายในและหน่วยงานคู่ความร่วมมือ
+- บันทึก/ค้นหา/กรองความร่วมมือ พร้อมหลายหน่วยงานคู่สัญญา
+- บันทึกกิจกรรม, แนบ PDF/DOCX/XLSX (ไม่เกิน 10 MB), audit log
+- Dashboard สรุปจำนวน สถานะใกล้หมดอายุ และกราฟประเภทเอกสาร
+- ส่งออกรายงาน Excel และ PDF
+
+## โครงสร้าง
+
+```
+psru-collaboration/
+├── client/       # React + Vite + Tailwind + Recharts
+├── server/       # Express + PostgreSQL API
+│   ├── migrations/
+│   ├── seeds/
+│   └── src/
+└── docker-compose.yml
+```
+
+## ติดตั้งและรัน
+
+ต้องมี Node.js 20+ และ Docker Desktop (หรือ PostgreSQL 16+)
+
+```powershell
+cd psru-collaboration
+docker compose up -d
+cd server
+Copy-Item .env.example .env
+npm install
+npm run migrate
+npm run seed
+npm run dev
+```
+
+เปิด PowerShell ใหม่ แล้วรัน Frontend:
+
+```powershell
+cd psru-collaboration/client
+npm install
+npm run dev
+```
+
+เปิด `http://localhost:5173` และเข้าสู่ระบบด้วย `admin@psru.ac.th` / `PsrU@123` (ให้เปลี่ยนรหัสผ่านทันทีเมื่อใช้งานจริง)
+
+## API หลัก
+
+| กลุ่ม | Endpoint |
+| --- | --- |
+| Authentication | `POST /api/auth/login`, `GET /api/auth/me` |
+| Dashboard | `GET /api/dashboard`, `GET /api/dashboard/notifications` |
+| ความร่วมมือ | `GET/POST /api/collaborations`, `GET/PUT /api/collaborations/:id` |
+| กิจกรรม | `POST /api/collaborations/:id/activities` |
+| เอกสาร | `POST/GET /api/documents/:collaborationId` |
+| รายงาน | `GET /api/reports/excel`, `GET /api/reports/pdf` |
+
+## ความปลอดภัย
+
+ใช้ bcrypt hashing, JWT middleware, RBAC, express-validator, parameterized PostgreSQL query, Helmet, จำกัด CORS, ตรวจชนิด/ขนาดไฟล์ และ workflow/audit log. ใน production ควรตั้งค่า `JWT_SECRET` แบบสุ่มยาว, ใช้ HTTPS, จำกัด `CLIENT_URL`, เก็บไฟล์บน object storage และตั้ง scheduled job เพื่อสร้างรายการในตาราง `notifications`/ส่งอีเมลก่อนหมดอายุ 90/60/30 วัน
