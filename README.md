@@ -27,6 +27,8 @@ psru-collaboration/
 
 ต้องมี Node.js 20+ และ PostgreSQL 16+ (แนะนำ Docker Desktop)
 
+**วิธีที่ง่ายที่สุด (Windows):** ดับเบิลคลิกไฟล์ `start-app.cmd` ที่หน้าโฟลเดอร์โครงการ แล้วเปิด [http://localhost:5173](http://localhost:5173) ในเบราว์เซอร์
+
 ```powershell
 npm install
 npm run install:all
