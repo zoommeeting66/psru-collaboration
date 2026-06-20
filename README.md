@@ -28,7 +28,6 @@ psru-collaboration/
 ต้องมี Node.js 20+ และ PostgreSQL 16+ (แนะนำ Docker Desktop)
 
 ```powershell
-cd psru-collaboration
 npm install
 npm run install:all
 docker compose up -d
@@ -44,7 +43,7 @@ npm run dev
 หากไม่ใช้คำสั่งรวม สามารถรันแยกได้ดังนี้:
 
 ```powershell
-cd psru-collaboration/client
+cd client
 npm install
 npm run dev
 ```
