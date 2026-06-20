@@ -36,6 +36,12 @@ psru-collaboration/
 
 > Docker Desktop อาจขอสิทธิ์ผู้ดูแลระบบ และอาจต้องเริ่มเครื่องใหม่หนึ่งครั้งตามการตั้งค่า WSL ของ Windows
 
+### หากพบ `password authentication failed for user "psru"`
+
+เป็นผลจาก PostgreSQL volume เก่าที่มีรหัสผ่านเดิม สำหรับการติดตั้งครั้งแรก ให้ดับเบิลคลิก `reset-database.cmd` แล้วกดยืนยัน จากนั้นจึงดับเบิลคลิก `start-app.cmd` อีกครั้ง
+
+> `reset-database.cmd` จะลบข้อมูลในฐานข้อมูล PSRU บนเครื่องทั้งหมด จึงไม่ควรใช้หลังเริ่มบันทึกข้อมูลจริงแล้ว
+
 ```powershell
 npm install
 npm run install:all
