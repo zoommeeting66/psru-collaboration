@@ -29,6 +29,7 @@ psru-collaboration/
 
 **วิธีที่ง่ายที่สุด (Windows):** ดับเบิลคลิกไฟล์ `start-app.cmd` ที่หน้าโฟลเดอร์โครงการ
 
+- หาก Docker Desktop แจ้งว่า WSL ยังไม่ติดตั้ง ให้ดับเบิลคลิก `setup-wsl.cmd`, อนุญาตสิทธิ์ผู้ดูแลระบบ และเริ่ม Windows ใหม่หนึ่งครั้ง
 - หากยังไม่มี Docker Desktop ระบบจะถามยืนยันก่อนติดตั้งด้วย `winget` (ไม่ต้องติดตั้ง PostgreSQL แยก)
 - เมื่อ Docker พร้อม ระบบจะสร้าง PostgreSQL container, ติดตั้ง package ที่จำเป็น, migration และ seed ให้อัตโนมัติ
 - จากนั้นระบบจะเปิด [http://localhost:5173](http://localhost:5173) ในเบราว์เซอร์

@@ -46,6 +46,8 @@ pause
 exit /b 1
 
 :check_docker
+wsl --status >nul 2>nul
+if errorlevel 1 goto wsl_required
 docker info >nul 2>nul
 if errorlevel 1 goto docker_not_running
 
@@ -70,6 +72,12 @@ echo Press Ctrl+C to stop the system.
 start "" "http://localhost:5173"
 npm.cmd run dev
 exit /b %errorlevel%
+
+:wsl_required
+echo Windows Subsystem for Linux (WSL) is not installed.
+echo Run setup-wsl.cmd in this folder, restart Windows, then open Docker Desktop.
+pause
+exit /b 1
 
 :docker_not_running
 echo Docker Desktop is installed but is not running.
