@@ -1,6 +1,7 @@
 @echo off
 setlocal
 cd /d "%~dp0"
+if not exist server\.env copy /Y server\.env.example server\.env >nul
 echo ===============================================
 echo   Reset PSRU PostgreSQL Database
 echo ===============================================

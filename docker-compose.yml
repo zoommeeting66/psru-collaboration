@@ -5,7 +5,7 @@ services:
       POSTGRES_DB: psru_collaboration
       POSTGRES_USER: psru
       POSTGRES_PASSWORD: psru_password
-    ports: ["5432:5432"]
+    ports: ["5433:5432"]
     volumes: ["postgres_data:/var/lib/postgresql/data"]
 volumes:
   postgres_data:
